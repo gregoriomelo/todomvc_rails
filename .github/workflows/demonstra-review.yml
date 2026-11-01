@@ -1,0 +1,53 @@
+name: Demonstra Visual PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  visual-review:
+    name: Demonstra — Visual Review & Capture (Rails)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare Rails DB & Assets
+        run: |
+          bin/rails db:prepare
+
+      - name: Install Playwright
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Download Demonstra CLI
+        run: |
+          curl -sfL https://raw.githubusercontent.com/gregoriomelo/todomvc_rails/demonstra-assets/bin/demonstra-linux-amd64 -o /usr/local/bin/demonstra
+          chmod +x /usr/local/bin/demonstra
+
+      - name: Run Playwright & Record with Demonstra
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          demonstra record \
+            --results-dir ./test-results \
+            --report-file ./test-results/results.json \
+            --branch demonstra-assets \
+            --strict \
+            -- npx playwright test
