@@ -37,21 +37,11 @@ jobs:
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
 
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-      - name: Download Demonstra CLI
-        run: |
-          curl -sfL https://raw.githubusercontent.com/gregoriomelo/todomvc_rails/demonstra-assets/bin/demonstra-linux-amd64 -o /usr/local/bin/demonstra
-          chmod +x /usr/local/bin/demonstra
-
-      - name: Run Playwright & Record with Demonstra
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          demonstra record \
-            --results-dir ./test-results \
-            --report-file ./test-results/results.json \
-            --branch demonstra-assets \
-            --strict \
-            -- npx playwright test
+      - name: Demonstra Visual PR Review
+        uses: gregoriomelo/demonstra@v0.1.0
+        with:
+          command: npx playwright test
+          results-dir: ./test-results
+          report-file: ./test-results/results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          strict: true
