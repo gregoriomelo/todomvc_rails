@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { enableVisualInteractions } from './support/interact.js';
 
-// Rails TodoMVC E2E verification test suite for Demonstra visual reviews (GIF + MP4 video scrubber)
+// Rails TodoMVC E2E verification test suite for Demonstra visual reviews (WebP inline + MP4 video scrubber)
 test.describe('Rails TodoMVC Feature Verification', () => {
   test.beforeEach(async ({ page }) => {
     await enableVisualInteractions(page);
