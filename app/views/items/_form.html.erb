@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "new_item_form" do %>
   <%= form_with(model: item, data: { turbo_frame: "new_item_form" }) do |form| %>
     <div class="relative w-[550px] mx-auto">
-      <%= form.text_field :body, placeholder: "What needs to be done?", class: "pl-[65px] font-light text-2xl h-[65px] w-full border-none" %>
+      <%= form.text_field :body, placeholder: "What needs to be done today?", class: "pl-[65px] font-light text-2xl h-[65px] w-full border-none" %>
     </div>
   <% end %>
 <% end %>
