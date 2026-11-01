@@ -38,7 +38,7 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Demonstra Visual PR Review
-        uses: gregoriomelo/demonstra@v0.1.0
+        uses: gregoriomelo/demonstra@v0
         with:
           command: npx playwright test
           results-dir: ./test-results
