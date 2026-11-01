@@ -30,6 +30,7 @@ jobs:
       - name: Prepare Rails DB & Assets
         run: |
           bin/rails db:prepare
+          bin/rails tailwindcss:build
 
       - name: Install Playwright
         run: |
